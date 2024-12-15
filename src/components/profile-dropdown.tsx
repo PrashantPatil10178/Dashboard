@@ -85,8 +85,6 @@ function LoginButton() {
   const handleLogin = () => {
     // Implement your login logic here
     console.log('Login button clicked')
-    // For example, you might redirect to a login page:
-    // router.push('/login')
   }
 
   return (
