@@ -1,12 +1,12 @@
 'use client'
 
 import React from 'react'
-import { number } from 'zod'
+import { any, number } from 'zod'
 import { api } from '@/services/AxiosInterceptor'
 import { CalendarIcon, TagIcon } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 import { useCourses, Course } from '@/hooks/useCourses'
-import useUserData from '@/hooks/useUserdata'
+import useUserData, { User } from '@/hooks/useUserdata'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -26,6 +26,18 @@ interface OrderResponse {
   currency: string
 }
 
+interface UserData {
+  id: number
+  name: string
+  email: string
+  avatarUrl: string | null
+  phoneNumber: number
+  googleId: string | null
+  role: string
+  isActive: boolean
+  enrolledCourses: Course[]
+}
+
 declare global {
   interface Window {
     Razorpay: any
@@ -34,7 +46,11 @@ declare global {
 
 export default function CourseList() {
   const { toast } = useToast()
-  const { data: userData, isLoading: isLoadingUser } = useUserData()
+  const {
+    data: userData,
+    isLoading: isLoadingUser,
+    refetch: refetchUserData,
+  } = useUserData()
   console.log(userData)
   const { data: courses, isLoading, error, refetch } = useCourses()
   const handlePayment = async (course: Course) => {
@@ -42,7 +58,6 @@ export default function CourseList() {
     try {
       const orderResponse = await api.post<OrderResponse>(
         'purchases/create-order',
-
         { courseId: course.id, amount: parseInt(course.price) }
       )
       console.log(orderResponse.amount)
@@ -61,11 +76,13 @@ export default function CourseList() {
               paymentId: response.razorpay_payment_id,
               signature: response.razorpay_signature,
             })
+            await refetchUserData() // Refetch user data after successful purchase
             toast({
               title: 'Payment Successful',
               description: `You've successfully enrolled in ${course.title}`,
             })
           } catch (verificationError) {
+            console.log(verificationError)
             toast({
               title: 'Payment Verification Failed',
               description: "Please contact support if you've been charged.",
@@ -76,7 +93,7 @@ export default function CourseList() {
         prefill: {
           name: userData?.name,
           email: userData?.email,
-          number: userData?.phoneNumber,
+          number: Number(userData?.phoneNumber),
         },
       }
 
@@ -138,6 +155,7 @@ export default function CourseList() {
               course={course}
               onEnroll={() => handlePayment(course)}
               isLoadingUser={isLoadingUser}
+              userData={userData as UserData}
             />
           ))
         ) : (
@@ -156,9 +174,19 @@ interface CourseCardProps {
   course: Course
   onEnroll: () => void
   isLoadingUser: boolean
+  userData: UserData
 }
 
-function CourseCard({ course, onEnroll, isLoadingUser }: CourseCardProps) {
+function CourseCard({
+  course,
+  onEnroll,
+  isLoadingUser,
+  userData,
+}: CourseCardProps) {
+  const isEnrolled = userData?.enrolledCourses?.some(
+    (enrolledCourse) => enrolledCourse.id === course.id
+  )
+
   return (
     <Card className='flex flex-col'>
       <CardHeader>
@@ -216,15 +244,28 @@ function CourseCard({ course, onEnroll, isLoadingUser }: CourseCardProps) {
         </div>
       </CardContent>
       <CardFooter className='flex justify-between items-center'>
-        <div>
-          <span className='text-sm text-muted-foreground line-through mr-2'>
-            ₹{(parseInt(course.price) * 2).toFixed(2)}
-          </span>
-          <span className='text-2xl font-bold'>₹{course.price}</span>
-        </div>
-        <Button onClick={onEnroll} disabled={isLoadingUser}>
-          Enroll Now
-        </Button>
+        {isEnrolled ? (
+          <Button
+            className='w-full'
+            onClick={() => {
+              /* Add logic to continue learning */
+            }}
+          >
+            Continue Learning
+          </Button>
+        ) : (
+          <>
+            <div>
+              <span className='text-sm text-muted-foreground line-through mr-2'>
+                ₹{(parseInt(course.price) * 2).toFixed(2)}
+              </span>
+              <span className='text-2xl font-bold'>₹{course.price}</span>
+            </div>
+            <Button onClick={onEnroll} disabled={isLoadingUser}>
+              Enroll Now
+            </Button>
+          </>
+        )}
       </CardFooter>
     </Card>
   )

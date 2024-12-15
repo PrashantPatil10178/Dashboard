@@ -6,12 +6,12 @@ interface UserData {
   user: User
 }
 
-interface User {
+export interface User {
   id: number
   name: string
   email: string
   avatarUrl: string | ''
-  phoneNumber: number | null
+  phoneNumber: number
   googleId: string
   role: string
   isActive: boolean
