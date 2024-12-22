@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import CreateCourseForm from '@/features/createcourse/components/CreateCourse'
+import Course from '@/features/createcourse'
 
 export const Route = createFileRoute('/_authenticated/CreateCourse/')({
-  component: CreateCourseForm,
+  component: Course,
 })

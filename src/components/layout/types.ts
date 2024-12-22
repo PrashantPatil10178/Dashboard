@@ -1,10 +1,11 @@
 import { LinkProps } from '@tanstack/react-router'
+import { User } from '@/hooks/useUserdata'
 
-interface User {
-  name: string
-  email: string
-  avatar: string
-}
+// interface User {
+//   name: string
+//   email: string
+//   avatar: string
+// }
 
 interface Team {
   name: string
@@ -30,11 +31,11 @@ export type NavItem =
 
 interface NavGroup {
   title: string
+  isAdmin?: boolean
   items: NavItem[]
 }
 
 interface SidebarData {
-  user: User
   teams: Team[]
   navGroups: NavGroup[]
 }

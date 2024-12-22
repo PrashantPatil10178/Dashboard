@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { CalendarIcon, TagIcon } from 'lucide-react'
+import { useCourseContent } from '@/hooks/useCourseContent'
 import { Course } from '@/hooks/useCourses'
 import useUserData from '@/hooks/useUserdata'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -34,6 +35,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export default function EnrolledCoursesList() {
   const { data: userData, isLoading, error, refetch } = useUserData()
+  const { data: userCourseData } = useCourseContent(1)
+  console.log(userCourseData)
 
   if (isLoading) {
     return (
@@ -69,6 +72,7 @@ export default function EnrolledCoursesList() {
       <h1 className='text-3xl font-bold mb-8 text-center'>
         Your Enrolled Courses
       </h1>
+
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
         {enrolledCourses.length > 0 ? (
           enrolledCourses.map((course: Course) => (
@@ -150,7 +154,14 @@ function CourseCard({ course }: CourseCardProps) {
         </div>
       </CardContent>
       <CardFooter className='flex justify-between items-center'>
-        <Button className='w-full'>Continue Learning</Button>
+        <Button
+          className='w-full'
+          onClick={() => {
+            console.log('Clicked')
+          }}
+        >
+          Continue Learning
+        </Button>
       </CardFooter>
     </Card>
   )

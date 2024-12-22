@@ -22,31 +22,11 @@ import {
   IconBook,
 } from '@tabler/icons-react'
 import { AudioWaveform, Command, GalleryVerticalEnd } from 'lucide-react'
+import { title } from 'process'
 import { type SidebarData } from '../types'
 
 export const sidebarData: SidebarData = {
-  user: {
-    name: 'satnaing',
-    email: 'satnaingdev@gmail.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
-  teams: [
-    {
-      name: 'Shadcn Admin',
-      logo: Command,
-      plan: 'Vite + ShadcnUI',
-    },
-    {
-      name: 'Acme Inc',
-      logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
-    },
-    {
-      name: 'Acme Corp.',
-      logo: AudioWaveform,
-      plan: 'Startup',
-    },
-  ],
+  teams: [],
   navGroups: [
     {
       title: 'General',
@@ -64,8 +44,9 @@ export const sidebarData: SidebarData = {
         {
           title: 'Enrolled Courses',
           url: '/EnrolledCourse',
-          icon: IconBook, // You can replace this with a more suitable icon if needed
+          icon: IconBook,
         },
+
         {
           title: 'Tasks',
           url: '/tasks',
@@ -86,6 +67,16 @@ export const sidebarData: SidebarData = {
           title: 'Users',
           url: '/users',
           icon: IconUsers,
+        },
+      ],
+    },
+    {
+      title: 'Admin',
+      isAdmin: true,
+      items: [
+        {
+          title: 'Create Course',
+          url: '/CreateCourse',
         },
       ],
     },
