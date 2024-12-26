@@ -22,6 +22,7 @@ import { Route as AuthenticatedDashboardIndexImport } from './routes/_authentica
 import { Route as AuthenticatedCourseIndexImport } from './routes/_authenticated/course/index'
 import { Route as AuthenticatedEnrolledCourseIndexImport } from './routes/_authenticated/EnrolledCourse/index'
 import { Route as AuthenticatedCreateCourseIndexImport } from './routes/_authenticated/CreateCourse/index'
+import { Route as AuthenticatedEnrolledCourseCourseIDIndexImport } from './routes/_authenticated/EnrolledCourse/$CourseID/index
 
 // Create Virtual Routes
 
@@ -303,6 +304,13 @@ const AuthenticatedSettingsAccountLazyRoute =
     ),
   )
 
+const AuthenticatedEnrolledCourseCourseIDIndexRoute =
+  AuthenticatedEnrolledCourseCourseIDIndexImport.update({
+    id: '/EnrolledCourse/$CourseID/',
+    path: '/EnrolledCourse/$CourseID/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -503,6 +511,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUsersIndexLazyImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/EnrolledCourse/$CourseID/': {
+      id: '/_authenticated/EnrolledCourse/$CourseID/'
+      path: '/EnrolledCourse/$CourseID'
+      fullPath: '/EnrolledCourse/$CourseID'
+      preLoaderRoute: typeof AuthenticatedEnrolledCourseCourseIDIndexImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
   }
 }
 
@@ -546,6 +561,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedHelpCenterIndexLazyRoute: typeof AuthenticatedHelpCenterIndexLazyRoute
   AuthenticatedTasksIndexLazyRoute: typeof AuthenticatedTasksIndexLazyRoute
   AuthenticatedUsersIndexLazyRoute: typeof AuthenticatedUsersIndexLazyRoute
+  AuthenticatedEnrolledCourseCourseIDIndexRoute: typeof AuthenticatedEnrolledCourseCourseIDIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -561,6 +577,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHelpCenterIndexLazyRoute: AuthenticatedHelpCenterIndexLazyRoute,
   AuthenticatedTasksIndexLazyRoute: AuthenticatedTasksIndexLazyRoute,
   AuthenticatedUsersIndexLazyRoute: AuthenticatedUsersIndexLazyRoute,
+  AuthenticatedEnrolledCourseCourseIDIndexRoute:
+    AuthenticatedEnrolledCourseCourseIDIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -594,6 +612,7 @@ export interface FileRoutesByFullPath {
   '/settings/': typeof AuthenticatedSettingsIndexLazyRoute
   '/tasks': typeof AuthenticatedTasksIndexLazyRoute
   '/users': typeof AuthenticatedUsersIndexLazyRoute
+  '/EnrolledCourse/$CourseID': typeof AuthenticatedEnrolledCourseCourseIDIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -622,6 +641,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsIndexLazyRoute
   '/tasks': typeof AuthenticatedTasksIndexLazyRoute
   '/users': typeof AuthenticatedUsersIndexLazyRoute
+  '/EnrolledCourse/$CourseID': typeof AuthenticatedEnrolledCourseCourseIDIndexRoute
 }
 
 export interface FileRoutesById {
@@ -654,6 +674,7 @@ export interface FileRoutesById {
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexLazyRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexLazyRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexLazyRoute
+  '/_authenticated/EnrolledCourse/$CourseID/': typeof AuthenticatedEnrolledCourseCourseIDIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -686,6 +707,7 @@ export interface FileRouteTypes {
     | '/settings/'
     | '/tasks'
     | '/users'
+    | '/EnrolledCourse/$CourseID'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/500'
@@ -713,6 +735,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/users'
+    | '/EnrolledCourse/$CourseID'
   id:
     | '__root__'
     | '/_authenticated'
@@ -743,6 +766,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/'
     | '/_authenticated/tasks/'
     | '/_authenticated/users/'
+    | '/_authenticated/EnrolledCourse/$CourseID/'
   fileRoutesById: FileRoutesById
 }
 
@@ -813,7 +837,8 @@ export const routeTree = rootRoute
         "/_authenticated/chats/",
         "/_authenticated/help-center/",
         "/_authenticated/tasks/",
-        "/_authenticated/users/"
+        "/_authenticated/users/",
+        "/_authenticated/EnrolledCourse/$CourseID/"
       ]
     },
     "/(auth)/500": {
@@ -918,6 +943,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/users/": {
       "filePath": "_authenticated/users/index.lazy.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/EnrolledCourse/$CourseID/": {
+      "filePath": "_authenticated/EnrolledCourse/$CourseID/index.tsx",
       "parent": "/_authenticated"
     }
   }
