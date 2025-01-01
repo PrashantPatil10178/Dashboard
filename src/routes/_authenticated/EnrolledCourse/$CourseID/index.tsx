@@ -1,12 +1,12 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { useNavigate } from '@tanstack/react-router'
 import { api } from '@/services/AxiosInterceptor'
-import { useCourseContent } from '@/hooks/useCourseContent'
+import EnrolledCourseContent from '@/features/enrolledCourse/Content'
 
 export const Route = createFileRoute(
   '/_authenticated/EnrolledCourse/$CourseID/'
 )({
-  component: RouteComponent,
+  component: EnrolledCourseContent,
   loader: async ({ params }) => {
     const { CourseID } = params
     try {
@@ -20,16 +20,3 @@ export const Route = createFileRoute(
     }
   },
 })
-
-function RouteComponent() {
-  const { CourseID } = Route.useParams()
-  const navigate = useNavigate()
-
-  return (
-    <div>
-      <h1>Enrolled Course</h1>
-      <p>You are viewing course ID: {CourseID}</p>
-      <button onClick={() => navigate({ to: '/' })}>Go to Homepage</button>
-    </div>
-  )
-}

@@ -22,7 +22,7 @@ import { Route as AuthenticatedDashboardIndexImport } from './routes/_authentica
 import { Route as AuthenticatedCourseIndexImport } from './routes/_authenticated/course/index'
 import { Route as AuthenticatedEnrolledCourseIndexImport } from './routes/_authenticated/EnrolledCourse/index'
 import { Route as AuthenticatedCreateCourseIndexImport } from './routes/_authenticated/CreateCourse/index'
-import { Route as AuthenticatedEnrolledCourseCourseIDIndexImport } from './routes/_authenticated/EnrolledCourse/$CourseID/index
+import { Route as AuthenticatedEnrolledCourseCourseIDIndexImport } from './routes/_authenticated/EnrolledCourse/$CourseID/index'
 
 // Create Virtual Routes
 
